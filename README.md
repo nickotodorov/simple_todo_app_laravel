@@ -28,3 +28,8 @@ php artisan key:generate
 ```bash
 php artisan migrate
 ```
+- Execute the seeders to fill the database with some predefined records:
+
+```bash
+php artisan db:seed
+```
