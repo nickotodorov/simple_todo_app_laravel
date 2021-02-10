@@ -26,7 +26,7 @@ class TodoFactory extends Factory
         return [
             'title' => $this->faker->name,
             'description' => $this->faker->text(50),
-            'status' => array_rand($statuses, 1)
+            'status' => $statuses[array_rand($statuses, 1)]
         ];
     }
 }
