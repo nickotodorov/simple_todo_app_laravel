@@ -17,6 +17,16 @@ class TodoController extends Controller
     use ServiceAccessTrait;
 
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
+    /**
      * @return Collection
      */
     public function index(): Collection
@@ -46,5 +56,4 @@ class TodoController extends Controller
 
         return new TodoResource($this->todoService()->update($todo, $request->getDto()));
     }
-
 }
