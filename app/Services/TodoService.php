@@ -6,13 +6,21 @@ namespace App\Services;
 
 use App\Models\DTO\TodoData;
 use App\Models\Todo;
+use Illuminate\Support\Facades\Auth;
 
 final class TodoService
 {
 
-    public function get(): object
+    public function get(?string $status=''): object
     {
-        return Todo::paginate(config('todo_settings.pagination', 10));
+        $builder = Todo::where('user_id', Auth::user()->id);
+
+        if ($status != '') {
+            $builder->whereStatus($status);
+        }
+
+        return $builder->orderBy('id', 'desc')
+            ->paginate(config('todo_settings.pagination', 10));
     }
 
     /**
@@ -47,7 +55,7 @@ final class TodoService
         $todo->title       = $data->title;
         $todo->description = $data->description;
         $todo->status      = $data->status;
-
+        $todo->user_id     = Auth::user()->id;
         $todo->save();
 
         return $todo;

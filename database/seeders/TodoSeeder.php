@@ -3,6 +3,7 @@ declare (strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use App\Models\Todo;
 
@@ -15,6 +16,7 @@ class TodoSeeder extends Seeder
      */
     public function run(): void
     {
+        $user = User::factory()->create();
         $toDos = [
             'Prepare for an interview',
             'Select a task for development',
@@ -28,7 +30,7 @@ class TodoSeeder extends Seeder
         ];
 
         foreach ($toDos as $title) {
-            Todo::factory(['title' => $title])->create();
+            Todo::factory(['title' => $title, 'user_id' => $user->id])->create();
         }
     }
 }

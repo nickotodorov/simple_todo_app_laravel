@@ -6,5 +6,5 @@ return [
         'Completed',
     ],
     'default_status' => 'To Do',
-    'pagination' => 10,
+    'pagination' => 5,
 ];

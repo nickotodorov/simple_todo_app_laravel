@@ -31,7 +31,7 @@ class TodoController extends Controller
      */
     public function index(): Collection
     {
-        return TodoResource::collection($this->todoService()->get());
+        return TodoResource::collection($this->todoService()->get(request()->input('status') ?? ''));
     }
 
     /**

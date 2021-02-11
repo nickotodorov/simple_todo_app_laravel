@@ -18,6 +18,10 @@ class CreateToDoTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->enum('status', config('todo_settings.status_types', []));
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -20,6 +20,7 @@ class Todo extends Model
         'title',
         'description',
         'status',
+        'user_id'
     ];
 
     protected static function newFactory(): TodoFactory
