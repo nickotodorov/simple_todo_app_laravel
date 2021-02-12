@@ -1,5 +1,5 @@
 # Simple ToDo application
-Simple ToDo application build with Laravel and VueJs for interview purposes demostrating different techniques and approaches in PHP development.
+Simple ToDo application build with Laravel and VueJs for interview purposes demonstrating different techniques and approaches in PHP development.
 It aims to provide the basic functionality for:
 
 - creation of Todo items
