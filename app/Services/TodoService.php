@@ -7,20 +7,23 @@ namespace App\Services;
 use App\Models\DTO\TodoData;
 use App\Models\Todo;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Pipeline\Pipeline;
+use App\QueryFilters\Status;
 
 final class TodoService
 {
 
-    public function get(?string $status=''): object
+    public function get(): object
     {
-        $builder = Todo::where('user_id', Auth::user()->id);
-
-        if ($status != '') {
-            $builder->whereStatus($status);
-        }
+        $builder = app(Pipeline::class)
+            ->send(Todo::where('user_id', Auth::user()->id))
+            ->through([
+               Status::class,
+            ])->thenReturn();
 
         return $builder->orderBy('id', 'desc')
             ->paginate(config('todo_settings.pagination', 10));
+
     }
 
     /**
