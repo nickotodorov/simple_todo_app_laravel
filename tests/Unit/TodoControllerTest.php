@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Event;
 
 class TodoControllerTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function testIndex()
     {
         Event::fake();
@@ -30,12 +25,6 @@ class TodoControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function testCreate()
     {
         Event::fake();
@@ -56,11 +45,6 @@ class TodoControllerTest extends TestCase
         $response->assertStatus(201);
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function testUpdate()
     {
         Event::fake();
