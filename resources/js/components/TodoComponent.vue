@@ -92,19 +92,18 @@
                 form: new Form({
                     title: '',
                     description: ''
-                }),
-                is_visited: false
+                })
             }
         },
         methods: {
             toggleTodo(todo, index) {
                 let data = new FormData();
                 data.append('_method', 'PATCH');
-                if (todo.status == 'To Do') {
-                    var todo_status = 'Completed';
-                }
-                if (todo.status == 'Completed') {
-                    var todo_status = 'To Do';
+                let todo_status = '';
+                if (todo.status != 'To Do') {
+                     todo_status = 'To Do';
+                } else {
+                     todo_status = 'Completed';
                 }
                 data.append('status', todo_status);
                 data.append('title', todo.title);
@@ -129,15 +128,15 @@
                     $('#dropdownMenuButton').text('All');
                 }
                 $('#filter-status').val(status);
+                if (this.isVisited()) {
+                    $('.chat').addClass('d-none');
+                    $('#main-todo').removeClass('d-none');
+                }
                 axios.get(uri).then((res) => {
                     this.todos = res.data
                 }).catch((error) => {
                     console.log(error)
                 })
-                if (this.isVisited()) {
-                    $('.chat').addClass('d-none');
-                    $('#main-todo').removeClass('d-none');
-                }
             },
             next() {
                 if (this.todos.links != null && this.todos.links.next != null) {
