@@ -17,12 +17,11 @@ class TodoControllerTest extends TestCase
 
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user, 'api')->get(route('todos.index') . '?status=Completed', [
-            'Authentication: Bearer ' . $user->api_token,
-            'X-Requested-With: XMLHttpRequest'
-        ]);
+        $response = $this->actingAs($user, 'api')->get(route('todos.index') . '?status=Completed', $this->setHeaders($user->api_token));
 
         $response->assertStatus(200);
+
+        $response->assertJsonStructure($this->getExpectedJsonItemListStructure());
     }
 
     public function testCreate()
@@ -37,12 +36,11 @@ class TodoControllerTest extends TestCase
             'status' => $todo->status,
             'description' => $todo->description,
             'user_id' => $user->id
-        ], [
-            'Authentication: Bearer ' . $user->api_token,
-            'X-Requested-With: XMLHttpRequest'
-        ]);
+        ], $this->setHeaders($user->api_token));
 
         $response->assertStatus(201);
+
+        $response->assertJsonStructure($this->getExpectedJsonItemStructure());
     }
 
     public function testUpdate()
@@ -56,11 +54,39 @@ class TodoControllerTest extends TestCase
             'title' => $todo->title . $todo->id,
             'status' => $todo->status,
             'description' => $todo->description,
-        ], [
-            'Authentication: Bearer ' . $user->api_token,
-            'X-Requested-With: XMLHttpRequest'
-        ]);
+        ], $this->setHeaders($user->api_token));
 
         $response->assertStatus(200);
+
+        $response->assertJsonStructure($this->getExpectedJsonItemStructure());
+    }
+
+    protected function getExpectedJsonItemStructure(): array
+    {
+        return [
+            'data' => [
+                'id',
+                'title',
+                'description',
+                'status',
+            ],
+        ];
+    }
+
+    protected function getExpectedJsonItemListStructure(): array
+    {
+        return [
+            'data',
+            'links',
+            'meta'
+        ];
+    }
+
+    protected function setHeaders(string $token): array
+    {
+        return [
+             'Authentication: Bearer ' . $token,
+             'X-Requested-With: XMLHttpRequest'
+         ];
     }
 }
